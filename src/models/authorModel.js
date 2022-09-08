@@ -17,8 +17,6 @@ function isValidEmail(email) {
 // [a-zA-Z0-9_]+ Match what is specified in the character class one or more times. You can add to the character class what you would allow to match, for example also add a .
 // $ Assert the end of the string
 
-
-
 const authorSchema = new mongoose.Schema({
 
     fname: {

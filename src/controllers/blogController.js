@@ -60,29 +60,6 @@ const getBlogs = async function (req, res) {
     try {
         const q = req.query // it gives an object
         const temp = req.savedTemp
-        // if (Object.keys(q) == 0) {
-        //     const result = await blogModel.find({ isDeleted: false, isPublished: true })//.count()
-        //     if (result.length == 0) return res.status(404).send({ status: false, msg: "no Data found" })
-
-        //     return res.status(200).send({ status: true, data: result })
-        // }
-        // // -------------------------------- this is for query param --------------------------------
-        // else {
-
-        //     const temp = {}
-        //     if (q.category && q.category.trim() !== "") { temp.category = q.category.trim() }
-
-        //     if (q.authorId && q.authorId.trim() !== "") {
-        //         if (!ObjectId.isValid(q.authorId.trim())) return res.status(400).send({ status: false, msg: "AuthorId is not valid" })
-        //         temp.authorId = q.authorId.trim()
-        //     }
-
-        //     if (q.tags && q.tags.trim() !== "") { temp.tags = q.tags.trim() }
-
-        //     if (q.subcategory && q.subcategory.trim() !== "") { temp.subcategory = q.subcategory.trim() }
-
-        //     // console.log(Object.values(temp))
-        //     if (Object.values(temp) == 0) return res.status(400).send({ status: false, msg: "please apply filter" })
 
         const result = await blogModel.find(temp).find({ isDeleted: true, isPublished: true })//.count()
         if (result.length == 0) return res.status(404).send({ status: false, msg: "no data found" })
@@ -102,14 +79,6 @@ const deleteBlogsByParam = async function (req, res) {
     try {
         const blogId = req.params.blogId
 
-        // // if (!ObjectId.isValid(blogId)) return res.status(404).send({ status: false, msg: "format of id is wrong" })
-
-        // const blog = await blogModel.findById(blogId).select({ isDeleted: 1, _id: 0 })
-
-        // if (!blog) return res.status(404).send({ status: false, msg: "no data found" })
-
-        // if (blog.isDeleted == true) return res.status(404).send({ status: false, msg: "already deleted" })
-
         await blogModel.findByIdAndUpdate(blogId, { isDeleted: true, deletedAt: Date.now() }, { new: true })
         return res.status(200).send({ status: true, msg: "blog deleted" })
     }
@@ -121,23 +90,17 @@ const deleteBlogsByParam = async function (req, res) {
 // ---------------------------------------------- update Blogs by body ------------- done ----done-------------------------
 
 const updateBlog = async function (req, res) {
-    try {  //1
+    try {
         let blogId = req.params.blogId;
         //Check object id is in correct format or not!!
 
         if (!ObjectId.isValid(blogId)) return res.status(400).send({ status: false, msg: "Blog id is invalid" })
-
-
-
 
         let requestBody = req.body;
 
         if (Object.keys(requestBody).length == 0) {
             return res.status(400).send({ status: false, msg: "Please provide blog details to update" });
         }
-
-
-
 
         let { title, body, tags, subcategory } = requestBody
         // console.log(tags);
@@ -189,28 +152,6 @@ let deleteBlogsByQuery = async function (req, res) {
     try {
 
         const temp = req.savedTemp
-        // let q = req.query
-        // if (Object.keys(q) == 0) return res.status(400).send({ status: false, msg: "please apply filter" })
-
-        // const temp = {}
-        // if (q.category && q.category.trim() !== "") { temp.category = q.category.trim() }
-
-        // if (q.authorid && q.authorid.trim() !== "") {
-        //     if (!ObjectId.isValid(q.authorid.trim())) return res.status(400).send({ status: false, msg: "AuthorId is not valid" })
-        //     temp.authorId = q.authorid.trim()
-        // }
-
-        // if (q.tags && q.tags.trim() !== "") { temp.tags = q.tags.trim() }
-
-        // if (q.subcategory && q.subcategory.trim() !== "") { temp.subcategory = q.subcategory.trim() }
-
-        // if (q.unpublished && q.unpublished.trim() !== "") {
-        //     if (q.unpublished.trim() == "false") {
-        //         temp.isPublished = false
-        //     } else { temp.isPublished = true }
-        // }
-
-        // if (Object.values(temp) == 0) return res.status(400).send({ status: false, msg: "please apply filter" })
 
         const toBeDeleted = await blogModel.find(temp).select({ isDeleted: 1, _id: 0 })
 
