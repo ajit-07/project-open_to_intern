@@ -47,10 +47,10 @@ const authorisation = async function (req, res, next) {
             next()
         }
         else if (b) {
-            console.log(b);
+            //console.log(b);
 
             const userToBeModified = await authorModel.findOne({ _id: b })
-            console.log(" userToBeModified - " + userToBeModified);
+            //console.log(" userToBeModified - " + userToBeModified);
 
             if (!userToBeModified) return res.status(403).send({ status: false, msg: "Access denied from body" })
 
