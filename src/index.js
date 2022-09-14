@@ -8,7 +8,7 @@ const moment = require("moment")
 app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({ extended: true })); // -->  it is not mandatory
 
-mongoose.connect("mongodb+srv://TarunKumar123:xLcX9W1SI9646ftM@cluster1.tpwtwiv.mongodb.net/Project_1", {
+mongoose.connect("mongodb+srv://TarunKumar123:xLcX9W1SI9646ftM@cluster1.tpwtwiv.mongodb.net/Project_2Ajit", {
     useNewUrlParser: true // 
 })
     .then(() => console.log("MongoDb is connected"))
