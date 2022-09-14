@@ -2,6 +2,8 @@ const collegeModel = require("../models/collegeModel.js")
 const validator = require("../valdator/validator.js")
 const internModel = require("../models/internModel")
 
+
+
 const createCollege = async function (req, res) {
     try {
         let data = req.body;
@@ -10,8 +12,16 @@ const createCollege = async function (req, res) {
         if (Object.keys(data).length == 0) { return res.status(400).send({ status: false, msg: "please provide mandatory college details" }) }
 
         if (!name) return res.status(400).send({ status: false, msg: "Name of the college is Mandatory" })
+        if (!validator.isValid(name)) return res.status(400).send({ status: false, msg: "Not a valid name" })
+        if (!name.match(/^[a-zA-Z. ]{2,30}$/)) return res.status(400).send({ status: false, msg: "please enter valid college name" })
+
         if (!fullName) return res.status(400).send({ status: false, msg: "Full Name of the college is Mandatory" })
+        
+
         if (!logoLink) return res.status(400).send({ status: false, msg: "Logo Link of the college is Mandatory" })
+        if (!validator.isValid(logoLink)) return res.status(400).send({ status: false, msg: "LogoName is mandatory" })
+        if (!validator.isValidUrl(logoLink)) return res.status(400).send({ status: false, msg: "enter a valid logoname or url" })
+        
 
 
         const duplicateName = await collegeModel.findOne({ name, isDeleted: false });
