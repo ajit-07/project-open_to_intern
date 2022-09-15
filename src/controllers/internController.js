@@ -1,6 +1,6 @@
 const collegeModel = require("../models/collegeModel")
 const internModel = require("../models/internModel")
-const validator = require("../valdator/validator")
+const validator = require("../validator/validator")
 
 const createIntern = async function (req, res) {
     try {
