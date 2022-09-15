@@ -35,7 +35,7 @@ const isValidUrl = function(value){
 //for valid college abbreviation
 
 const isVaildName = function(value){
-    if(/^[a-zA-Z]{2,30}+$/.test(value)){
+    if(/^[a-z]+$/.test(value)){
         return true
     }else{
         return false
@@ -57,7 +57,7 @@ const isVaildInternName = function(value){
 //for valid full name of the college
 
 const isValidFname= function(value){
-    if(/^[a-zA-Z ]{2,30}$/.test(value)){
+    if(/^[a-zA-Z ]+$/.test(value)){
         return true
     }else{
         return false

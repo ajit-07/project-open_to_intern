@@ -5,6 +5,7 @@ const internModel = require("../models/internModel")
 
 
 const createCollege = async function (req, res) {
+
     try {
         let data = req.body;
         let { name, fullName, logoLink } = data;
@@ -35,12 +36,14 @@ const createCollege = async function (req, res) {
         return res.status(500).send({ status: false, msg: error.messsage })
     }
 
+
+
 }
 
 const getCollegeInterns = async function (req, res) {
     try {
         let data = req.query;
-        if (Object.keys(filter).length == 0) return res.status(400).send({ status: false, msg: "Please give query to fetch intern details" })
+        if (Object.keys(data).length == 0) return res.status(400).send({ status: false, msg: "Please give query to fetch intern details" })
         let collegeName = data.collegeName;
         if (!collegeName) return res.status(400).send({ status: false, msg: "College name is required" })
 
@@ -49,12 +52,12 @@ const getCollegeInterns = async function (req, res) {
 
         if (!collegeDetails) return res.status(400).send({ status: false, msg: `${collegeName} is not available` })
 
-        let collegeId = collegeDetails._id;
+        let id = collegeDetails._id;
         let name = collegeDetails.name;
         let fullName = collegeDetails.fullName;
         let logoLink = collegeDetails.logoLink;
 
-        let interns = await internModel.find({ collegeId }).select({ _id: 1, name: 1, email: 1, mobile: 1 })
+        let interns = await internModel.find({ collegeId: id }).select({ _id: 1, name: 1, email: 1, mobile: 1 })
         if (interns.length == 0) return res.status(400).send({ status: false, msg: "No inerns applied for this college " })
 
         let internsDetails = {
