@@ -1,4 +1,4 @@
-const mongoose = require("mongoose")
+
 
 const isValid= function(value) {
     if (typeof value == "undefined" || value == null) return false;
@@ -23,13 +23,23 @@ const isValidNumber = function(value){
 }
 
 const isValidUrl = function(value){
-    if(/(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-/]))?/.test(value)){
+    if(/^https?:\/\/(.+\/)+.+(\.(gif|png|jpg|jpeg|webp|svg|psd|bmp|tif|jfif))$/i.test(value)){
         return true
     }else{
         return false
     }
 }
 
+const isAlphabet = function(value){
+    if(/^[a-zA-Z]{2,30}$/.test(value)){
+        return true
+    }else{
+        return false
+    }
+}
+
+
+
 ///^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/--email
 
-module.exports = { isValid, isValidEmail, isValidNumber,isValidUrl }
+module.exports = { isValid, isValidEmail, isValidNumber,isValidUrl,isAlphabet,isValidFname }

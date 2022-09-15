@@ -8,20 +8,11 @@ const moment = require("moment")
 app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({ extended: true })); // -->  it is not mandatory
 
-mongoose.connect("mongodb+srv://TarunKumar123:xLcX9W1SI9646ftM@cluster1.tpwtwiv.mongodb.net/Project_2Ajit", {
+mongoose.connect("mongodb+srv://Debasish904:Nzi5BjnfyWQmSY9m@cluster0.eeozuz6.mongodb.net/project:2", {
     useNewUrlParser: true // 
 })
     .then(() => console.log("MongoDb is connected"))
     .catch(err => console.log(err))
-
-app.use(
-    function (req, res, next) {
-        let time = moment().format("DD/MM/YYYY hh:mm:ss a")
-        let url = req.url
-        console.log("url : " + url, " time : " + time);
-        next();
-    }
-);
 
 app.use('/', route);// -->  url starts from ' / '
 

@@ -11,14 +11,14 @@ const createCollege = async function (req, res) {
 
         if (Object.keys(data).length == 0) { return res.status(400).send({ status: false, msg: "please provide mandatory college details" }) }
 
-        if (!name) return res.status(400).send({ status: false, msg: "Name of the college is Mandatory" })
-        if (!validator.isValid(name)) return res.status(400).send({ status: false, msg: "Not a valid name" })
-        if (!name.match(/^[a-zA-Z. ]{2,30}$/)) return res.status(400).send({ status: false, msg: "please enter valid college name" })
-
-        if (!fullName) return res.status(400).send({ status: false, msg: "Full Name of the college is Mandatory" })
         
+        if (!validator.isValid(name)) return res.status(400).send({ status: false, msg: "Not a valid name" })
+        if (!validator.isAlphabet(name)) return res.status(400).send({ status: false, msg: "please enter valid college name" })
 
-        if (!logoLink) return res.status(400).send({ status: false, msg: "Logo Link of the college is Mandatory" })
+        if (!validator.isValid(fullName)) return res.status(400).send({ status: false, msg: "Full Name of the college is Mandatory" })
+        if (!validator.isValidFname(fullName)) return res.status(400).send({ status: false, msg: "Enter valid fullName" })
+
+        
         if (!validator.isValid(logoLink)) return res.status(400).send({ status: false, msg: "LogoName is mandatory" })
         if (!validator.isValidUrl(logoLink)) return res.status(400).send({ status: false, msg: "enter a valid logoname or url" })
         
@@ -56,8 +56,8 @@ const getCollegeInterns = async function (req, res) {
         let logoLink = collegeDetails.logoLink;
 
         let interns = await internModel.find({ collegeId }).select({ _id: 1, name: 1, email: 1, mobile: 1 })
-        if (interns.length == 0) { return res.status(400).send({ status: false, msg: "No inerns for this college found" }) }
-        else {
+        if (interns.length == 0)  return res.status(400).send({ status: false, msg: "No inerns for this college found" }) 
+        
             let internsDetails = {
                 name: name,
                 fullName: fullName,
@@ -66,7 +66,7 @@ const getCollegeInterns = async function (req, res) {
             }
             return res.status(200).send({ status:true,data: internsDetails })
 
-        }
+        
     } catch (error) {
         return res.status(500).send({ status: false, msg: error.messsage })
     }
