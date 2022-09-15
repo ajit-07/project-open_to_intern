@@ -1,5 +1,5 @@
 
-
+//for valid data entered by user
 const isValid= function(value) {
     if (typeof value == "undefined" || value == null) return false;
     if (typeof value !== "string" || value.trim() == "") { return false };
@@ -15,13 +15,14 @@ const isValidEmail = function (value) {
 // valid Number
 
 const isValidNumber = function(value){
-    if(/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/.test(value)) {
+    if(/^\(?([6-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/.test(value)) {
         return true
     }else{
         return false
     }
 }
 
+//for valid url
 const isValidUrl = function(value){
     if(/^https?:\/\/(.+\/)+.+(\.(gif|png|jpg|jpeg|webp|svg|psd|bmp|tif|jfif))$/i.test(value)){
         return true
@@ -30,8 +31,33 @@ const isValidUrl = function(value){
     }
 }
 
-const isAlphabet = function(value){
-    if(/^[a-zA-Z]{2,30}$/.test(value)){
+
+//for valid college abbreviation
+
+const isVaildName = function(value){
+    if(/^[a-zA-Z]{2,30}+$/.test(value)){
+        return true
+    }else{
+        return false
+    }
+}
+
+
+//for valid interns name
+
+const isVaildInternName = function(value){
+    if(/^[a-zA-z]+([\s][a-zA-Z]+)*$/
+    .test(value)){
+        return true
+    }else{
+        return false
+    }
+}
+
+//for valid full name of the college
+
+const isValidFname= function(value){
+    if(/^[a-zA-Z ]{2,30}$/.test(value)){
         return true
     }else{
         return false
@@ -40,6 +66,5 @@ const isAlphabet = function(value){
 
 
 
-///^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/--email
 
-module.exports = { isValid, isValidEmail, isValidNumber,isValidUrl,isAlphabet,isValidFname }
+module.exports = { isValid, isValidEmail, isValidNumber,isValidUrl,isVaildName,isValidFname,isVaildInternName }

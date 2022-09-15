@@ -1,5 +1,5 @@
 const collegeModel = require("../models/collegeModel.js")
-const validator = require("../valdator/validator.js")
+const validator = require("../validator/validator.js")
 const internModel = require("../models/internModel")
 
 
@@ -11,17 +11,17 @@ const createCollege = async function (req, res) {
 
         if (Object.keys(data).length == 0) { return res.status(400).send({ status: false, msg: "please provide mandatory college details" }) }
 
-        
-        if (!validator.isValid(name)) return res.status(400).send({ status: false, msg: "Not a valid name" })
-        if (!validator.isAlphabet(name)) return res.status(400).send({ status: false, msg: "please enter valid college name" })
+
+        if (!validator.isValid(name)) return res.status(400).send({ status: false, msg: "name of the college is mandatory" })
+        if (!validator.isVaildName(name)) return res.status(400).send({ status: false, msg: "please enter valid college name" })
 
         if (!validator.isValid(fullName)) return res.status(400).send({ status: false, msg: "Full Name of the college is Mandatory" })
         if (!validator.isValidFname(fullName)) return res.status(400).send({ status: false, msg: "Enter valid fullName" })
 
-        
-        if (!validator.isValid(logoLink)) return res.status(400).send({ status: false, msg: "LogoName is mandatory" })
-        if (!validator.isValidUrl(logoLink)) return res.status(400).send({ status: false, msg: "enter a valid logoname or url" })
-        
+
+        if (!validator.isValid(logoLink)) return res.status(400).send({ status: false, msg: "LogoLink  is mandatory" })
+        if (!validator.isValidUrl(logoLink)) return res.status(400).send({ status: false, msg: "enter a valid logoLink url" })
+
 
 
         const duplicateName = await collegeModel.findOne({ name, isDeleted: false });
@@ -39,14 +39,13 @@ const createCollege = async function (req, res) {
 
 const getCollegeInterns = async function (req, res) {
     try {
-        let filter = req.query;
+        let data = req.query;
         if (Object.keys(filter).length == 0) return res.status(400).send({ status: false, msg: "Please give query to fetch intern details" })
-        let collegeName = req.query.collegeName;
+        let collegeName = data.collegeName;
         if (!collegeName) return res.status(400).send({ status: false, msg: "College name is required" })
 
-        let collegeNameinDb = collegeName.toLowerCase();
 
-        let collegeDetails = await collegeModel.findOne({ name: collegeNameinDb, isDeleted: false })
+        let collegeDetails = await collegeModel.findOne({ name: collegeName, isDeleted: false })
 
         if (!collegeDetails) return res.status(400).send({ status: false, msg: `${collegeName} is not available` })
 
@@ -56,17 +55,17 @@ const getCollegeInterns = async function (req, res) {
         let logoLink = collegeDetails.logoLink;
 
         let interns = await internModel.find({ collegeId }).select({ _id: 1, name: 1, email: 1, mobile: 1 })
-        if (interns.length == 0)  return res.status(400).send({ status: false, msg: "No inerns for this college found" }) 
-        
-            let internsDetails = {
-                name: name,
-                fullName: fullName,
-                logoLink: logoLink,
-                interests: interns
-            }
-            return res.status(200).send({ status:true,data: internsDetails })
+        if (interns.length == 0) return res.status(400).send({ status: false, msg: "No inerns applied for this college " })
 
-        
+        let internsDetails = {
+            name: name,
+            fullName: fullName,
+            logoLink: logoLink,
+            interns: interns
+        }
+        return res.status(200).send({ status: true, data: internsDetails })
+
+
     } catch (error) {
         return res.status(500).send({ status: false, msg: error.messsage })
     }
