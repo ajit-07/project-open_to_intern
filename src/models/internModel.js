@@ -19,7 +19,7 @@ const internSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true,
-        trime: true
+        trim: true
     },
     collegeId: {
         type: ObjectId,
@@ -30,7 +30,7 @@ const internSchema = new mongoose.Schema({
         default: false
     }
 
-}, { timestamps: true })
+},{timestamps:true})
 
 
 
