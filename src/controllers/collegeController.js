@@ -17,28 +17,23 @@ const createCollege = async function (req, res) {
         if (!validator.isVaildName(name)) return res.status(400).send({ status: false, msg: "Name is only allowed in lowercase don't use special characters and space" })
 
         if (!validator.isValid(fullName)) return res.status(400).send({ status: false, msg: "Full Name of the college is Mandatory,please enter a valid fullname" })
-        if (!validator.isValidFname(fullName)) return res.status(400).send({ status: false, msg: "Fullname is only allowed in lowercase don't use special characters and space" })
-
+        if (!validator.isValidFname(fullName)) return res.status(400).send({ status: false, msg: "Fullname only accepts alphabets don't use special characters" })
 
         if (!validator.isValid(logoLink)) return res.status(400).send({ status: false, msg: "LogoLink  is mandatory,please enter a valid logo link" })
         if (!validator.isValidUrl(logoLink)) return res.status(400).send({ status: false, msg: "Logolink should be a valid logolink" })
 
-
-
-        const duplicateName = await collegeModel.findOne({ name, isDeleted: false });
+        const duplicateName = await collegeModel.findOne({ name: name, isDeleted: false });
         if (duplicateName) return res.status(400).send({ status: false, msg: `College ${name} is already in use` })
 
 
         const collegeData = await collegeModel.create(data);
-        const saveResponse=await collegeModel.findOne({_id:collegeData._id}).select({name:1,fullName:1,logoLink:1,_id:0})
+
+        const saveResponse = await collegeModel.findOne({ _id: collegeData._id }).select({ _id: 0, name: 1, fullName: 1, logoLink: 1 })
         return res.status(201).send({ status: true, data: saveResponse })
     }
     catch (error) {
         return res.status(500).send({ status: false, msg: error.messsage })
     }
-
-
-
 }
 
 const getCollegeInterns = async function (req, res) {
@@ -68,7 +63,6 @@ const getCollegeInterns = async function (req, res) {
             interns: interns
         }
         return res.status(200).send({ status: true, data: internsDetails })
-
 
     } catch (error) {
         return res.status(500).send({ status: false, msg: error.messsage })
